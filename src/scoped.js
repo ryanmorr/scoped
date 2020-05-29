@@ -14,6 +14,7 @@ function addCSSAttribute(element, attr) {
 
 export default function scoped(styles, attr = 'scoped-' + uuid()) {
     const style = document.createElement('style');
+    style.setAttribute(attr, '');
     style.innerHTML = csscope(attr, styles);
     document.head.appendChild(style);
     return (element) => addCSSAttribute(element, attr);

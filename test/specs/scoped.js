@@ -12,25 +12,8 @@ describe('scoped', () => {
         }
         return false;
     }
-
-    it('should applies styles to an element', () => {
-        const element = document.createElement('div');
-        document.body.appendChild(element);
-
-        const style = scoped(`
-            div {
-                width: 37px;
-            }
-        `);
-        
-        expect(style).to.be.a('function');
-        expect(style(element)).to.equal(element);
-        expect(hasScopedAttribute(element)).to.equal(true);
-        expect(window.getComputedStyle(element).getPropertyValue('width')).to.equal('37px');
-        element.remove();
-    });
     
-    it('should applies styles to a DOM tree', () => {
+    it('should create a stylesheet and apply styles to a DOM tree', () => {
         const div = document.createElement('div');
         const section = div.appendChild(document.createElement('section'));
         const span = section.appendChild(document.createElement('span'));
@@ -56,9 +39,39 @@ describe('scoped', () => {
         expect(hasScopedAttribute(section)).to.equal(true);
         expect(hasScopedAttribute(span)).to.equal(true);
 
+        const styles = document.querySelectorAll('style');
+        expect(hasScopedAttribute(styles[styles.length - 1])).to.equal(true);
+
         expect(window.getComputedStyle(div).getPropertyValue('font-size')).to.equal('12px');
         expect(window.getComputedStyle(section).getPropertyValue('font-size')).to.equal('9px');
         expect(window.getComputedStyle(span).getPropertyValue('font-size')).to.equal('5.5px');
+
+        div.remove();
+    });
+
+    it('should support providing the name of the unique attribute', () => {
+        const div = document.createElement('div');
+        const section = div.appendChild(document.createElement('section'));
+        document.body.appendChild(div);
+
+        const style = scoped(`
+            div {
+                width: 57px;
+            }
+
+            section {
+                width: 43px;
+            }
+        `, 'scoped-foo');
+
+        style(div);
+        
+        expect(hasScopedAttribute(div, 'scoped-foo')).to.equal(true);
+        expect(hasScopedAttribute(section, 'scoped-foo')).to.equal(true);
+        expect(hasScopedAttribute(document.querySelector('style[scoped-foo]'))).to.equal(true);
+
+        expect(window.getComputedStyle(div).getPropertyValue('width')).to.equal('57px');
+        expect(window.getComputedStyle(section).getPropertyValue('width')).to.equal('43px');
 
         div.remove();
     });
@@ -84,32 +97,6 @@ describe('scoped', () => {
 
         div.remove();
         span.remove();
-    });
-
-    it('should support providing the name of the unique attribute', () => {
-        const div = document.createElement('div');
-        const section = div.appendChild(document.createElement('section'));
-        document.body.appendChild(div);
-
-        const style = scoped(`
-            div {
-                width: 57px;
-            }
-
-            section {
-                width: 43px;
-            }
-        `, 'scoped-foo');
-
-        style(div);
-        
-        expect(hasScopedAttribute(div, 'scoped-foo')).to.equal(true);
-        expect(hasScopedAttribute(section, 'scoped-foo')).to.equal(true);
-
-        expect(window.getComputedStyle(div).getPropertyValue('width')).to.equal('57px');
-        expect(window.getComputedStyle(section).getPropertyValue('width')).to.equal('43px');
-
-        div.remove();
     });
 
     it('should support multiple scoped styles', () => {
