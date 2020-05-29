@@ -1,6 +1,16 @@
 import scoped from '../../src/scoped';
 
 describe('scoped', () => {
+    const styles = Array.from(document.querySelectorAll('style'));
+
+    afterEach(() => {
+        document.querySelectorAll('style').forEach((style) => {
+            if (styles.indexOf(style) === -1) {
+                style.remove();
+            }
+        });
+    });
+
     function hasScopedAttribute(element, attr) {
         const attrs = element.attributes;
         for (let i = 0; i < attrs.length; i++) {
