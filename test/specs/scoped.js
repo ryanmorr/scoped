@@ -1,10 +1,12 @@
 import scoped from '../../src/scoped';
 
 describe('scoped', () => {
-    function hasScopedAttribute(element) {
+    function hasScopedAttribute(element, attr) {
         const attrs = element.attributes;
         for (let i = 0; i < attrs.length; i++) {
-            if (attrs[i].name.startsWith('scoped')) {
+            if (attr != null && attrs[i].name === attr) {
+                return true;
+            } else if (attrs[i].name.startsWith('scoped')) {
                 return true;
             }
         }
@@ -82,5 +84,31 @@ describe('scoped', () => {
 
         div.remove();
         span.remove();
+    });
+
+    it('should support providing the name of the unique attribute', () => {
+        const div = document.createElement('div');
+        const section = div.appendChild(document.createElement('section'));
+        document.body.appendChild(div);
+
+        const style = scoped(`
+            div {
+                width: 57px;
+            }
+
+            section {
+                width: 43px;
+            }
+        `, 'scoped-foo');
+
+        style(div);
+        
+        expect(hasScopedAttribute(div, 'scoped-foo')).to.equal(true);
+        expect(hasScopedAttribute(section, 'scoped-foo')).to.equal(true);
+
+        expect(window.getComputedStyle(div).getPropertyValue('width')).to.equal('57px');
+        expect(window.getComputedStyle(section).getPropertyValue('width')).to.equal('43px');
+
+        div.remove();
     });
 });
