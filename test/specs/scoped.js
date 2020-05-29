@@ -111,4 +111,29 @@ describe('scoped', () => {
 
         div.remove();
     });
+
+    it('should support multiple scoped styles', () => {
+        const element = document.createElement('div');
+        element.classList.add('foo');
+        document.body.appendChild(element);
+
+        const width = scoped(`
+            .foo {
+                width: 41px;
+            }
+        `);
+
+        const height = scoped(`
+            .foo {
+                height: 26px;
+            }
+        `);
+
+        width(height(element));
+
+        expect(window.getComputedStyle(element).getPropertyValue('width')).to.equal('41px');
+        expect(window.getComputedStyle(element).getPropertyValue('height')).to.equal('26px');
+
+        element.remove();
+    });
 });
