@@ -5,7 +5,9 @@ function uuid() {
 }
 
 function addCSSAttribute(element, attr) {
-    element.setAttribute(attr, '');
+    if (element.nodeType === 1) {
+        element.setAttribute(attr, '');
+    }
     for (let i = 0, len = element.children.length; i < len; i++) {
         addCSSAttribute(element.children[i], attr);
     }

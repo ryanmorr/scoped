@@ -144,4 +144,30 @@ describe('scoped', () => {
 
         element.remove();
     });
+
+    it('should support document fragments', () => {
+        const frag = document.createDocumentFragment();
+        const div = frag.appendChild(document.createElement('div'));
+        const span = frag.appendChild(document.createElement('span'));
+
+        const style = scoped(`
+            div {
+                padding-left: 3px;
+            }
+
+            span {
+                margin-right: 7px;
+            }
+        `);
+
+        expect(style(frag)).to.equal(frag);
+
+        document.body.appendChild(frag);
+        
+        expect(getStyle(div, 'padding-left')).to.equal('3px');
+        expect(getStyle(span, 'margin-right')).to.equal('7px');
+
+        div.remove();
+        span.remove();
+    });
 });
