@@ -12,6 +12,10 @@ describe('scoped', () => {
         }
         return false;
     }
+
+    function getStyle(element, prop) {
+        return getComputedStyle(element).getPropertyValue(prop);
+    }
     
     it('should create a stylesheet and apply styles to a DOM tree', () => {
         const div = document.createElement('div');
@@ -42,9 +46,9 @@ describe('scoped', () => {
         const styles = document.querySelectorAll('style');
         expect(hasScopedAttribute(styles[styles.length - 1])).to.equal(true);
 
-        expect(window.getComputedStyle(div).getPropertyValue('font-size')).to.equal('12px');
-        expect(window.getComputedStyle(section).getPropertyValue('font-size')).to.equal('9px');
-        expect(window.getComputedStyle(span).getPropertyValue('font-size')).to.equal('5.5px');
+        expect(getStyle(div, 'font-size')).to.equal('12px');
+        expect(getStyle(section, 'font-size')).to.equal('9px');
+        expect(getStyle(span, 'font-size')).to.equal('5.5px');
 
         div.remove();
     });
@@ -70,8 +74,8 @@ describe('scoped', () => {
         expect(hasScopedAttribute(section, 'scoped-foo')).to.equal(true);
         expect(hasScopedAttribute(document.querySelector('style[scoped-foo]'))).to.equal(true);
 
-        expect(window.getComputedStyle(div).getPropertyValue('width')).to.equal('57px');
-        expect(window.getComputedStyle(section).getPropertyValue('width')).to.equal('43px');
+        expect(getStyle(div, 'width')).to.equal('57px');
+        expect(getStyle(section, 'width')).to.equal('43px');
 
         div.remove();
     });
@@ -92,8 +96,8 @@ describe('scoped', () => {
 
         style(div);
         
-        expect(window.getComputedStyle(div).getPropertyValue('color')).to.equal('rgb(214, 122, 127)');
-        expect(window.getComputedStyle(span).getPropertyValue('color')).to.not.equal('rgb(214, 122, 127)');
+        expect(getStyle(div, 'color')).to.equal('rgb(214, 122, 127)');
+        expect(getStyle(span, 'color')).to.not.equal('rgb(214, 122, 127)');
 
         div.remove();
         span.remove();
@@ -118,8 +122,8 @@ describe('scoped', () => {
 
         width(height(element));
 
-        expect(window.getComputedStyle(element).getPropertyValue('width')).to.equal('41px');
-        expect(window.getComputedStyle(element).getPropertyValue('height')).to.equal('26px');
+        expect(getStyle(element, 'width')).to.equal('41px');
+        expect(getStyle(element, 'height')).to.equal('26px');
 
         element.remove();
     });
