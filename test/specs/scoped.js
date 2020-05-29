@@ -31,6 +31,7 @@ describe('scoped', () => {
         const div = document.createElement('div');
         const section = div.appendChild(document.createElement('section'));
         const span = section.appendChild(document.createElement('span'));
+        const p = section.appendChild(document.createElement('p'));
         document.body.appendChild(div);
 
         const style = scoped(`
@@ -45,6 +46,10 @@ describe('scoped', () => {
             span {
                 font-size: 5.5px;
             }
+
+            p {
+                font-size: 4px;
+            }
         `);
 
         style(div);
@@ -52,6 +57,7 @@ describe('scoped', () => {
         expect(hasScopedAttribute(div)).to.equal(true);
         expect(hasScopedAttribute(section)).to.equal(true);
         expect(hasScopedAttribute(span)).to.equal(true);
+        expect(hasScopedAttribute(p)).to.equal(true);
 
         const styles = document.querySelectorAll('style');
         expect(hasScopedAttribute(styles[styles.length - 1])).to.equal(true);
@@ -59,6 +65,7 @@ describe('scoped', () => {
         expect(getStyle(div, 'font-size')).to.equal('12px');
         expect(getStyle(section, 'font-size')).to.equal('9px');
         expect(getStyle(span, 'font-size')).to.equal('5.5px');
+        expect(getStyle(p, 'font-size')).to.equal('4px');
 
         div.remove();
     });
