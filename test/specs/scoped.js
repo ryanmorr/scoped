@@ -11,7 +11,7 @@ describe('scoped', () => {
         return false;
     }
 
-    it('should return a function that applies styles to an element', () => {
+    it('should applies styles to an element', () => {
         const element = document.createElement('div');
         document.body.appendChild(element);
 
@@ -25,10 +25,10 @@ describe('scoped', () => {
         expect(style(element)).to.equal(element);
         expect(hasScopedAttribute(element)).to.equal(true);
         expect(window.getComputedStyle(element).getPropertyValue('width')).to.equal('37px');
-        document.body.removeChild(element);
+        element.remove();
     });
     
-    it('should return a function that applies styles to a DOM tree', () => {
+    it('should applies styles to a DOM tree', () => {
         const div = document.createElement('div');
         const section = div.appendChild(document.createElement('section'));
         const span = section.appendChild(document.createElement('span'));
@@ -58,6 +58,29 @@ describe('scoped', () => {
         expect(window.getComputedStyle(section).getPropertyValue('font-size')).to.equal('9px');
         expect(window.getComputedStyle(span).getPropertyValue('font-size')).to.equal('5.5px');
 
-        document.body.removeChild(div);
+        div.remove();
+    });
+
+    it('should confine styles only to the DOM tree they were applied to', () => {
+        const div = document.createElement('div');
+        const span = document.createElement('span');
+        div.classList.add('foo');
+        span.classList.add('foo');
+        document.body.appendChild(div);
+        document.body.appendChild(span);
+
+        const style = scoped(`
+            .foo {
+                color: rgb(214, 122, 127);
+            }
+        `);
+
+        style(div);
+        
+        expect(window.getComputedStyle(div).getPropertyValue('color')).to.equal('rgb(214, 122, 127)');
+        expect(window.getComputedStyle(span).getPropertyValue('color')).to.not.equal('rgb(214, 122, 127)');
+
+        div.remove();
+        span.remove();
     });
 });
