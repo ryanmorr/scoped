@@ -1,14 +1,14 @@
 # scoped
 
 [![Version Badge][version-image]][project-url]
-[![Build Status][build-image]][build-url]
 [![License][license-image]][license-url]
+[![Build Status][build-image]][build-url]
 
 > Scoped CSS for DOM trees
 
 ## Install
 
-Download the [CJS](https://github.com/ryanmorr/scoped/raw/master/dist/scoped.cjs.js), [ESM](https://github.com/ryanmorr/scoped/raw/master/dist/scoped.esm.js), [UMD](https://github.com/ryanmorr/scoped/raw/master/dist/scoped.umd.js) versions or install via NPM:
+Download the [CJS](https://github.com/ryanmorr/scoped/raw/master/dist/cjs/scoped.js), [ESM](https://github.com/ryanmorr/scoped/raw/master/dist/esm/scoped.js), [UMD](https://github.com/ryanmorr/scoped/raw/master/dist/umd/scoped.js) versions or install via NPM:
 
 ```sh
 npm install @ryanmorr/scoped
@@ -84,8 +84,8 @@ const applyStyles = scoped(`
 This project is dedicated to the public domain as described by the [Unlicense](http://unlicense.org/).
 
 [project-url]: https://github.com/ryanmorr/scoped
-[version-image]: https://badge.fury.io/gh/ryanmorr%2Fscoped.svg
-[build-url]: https://travis-ci.org/ryanmorr/scoped
-[build-image]: https://travis-ci.org/ryanmorr/scoped.svg
-[license-image]: https://img.shields.io/badge/license-Unlicense-blue.svg
+[version-image]: https://img.shields.io/github/package-json/v/ryanmorr/scoped?color=blue&style=flat-square
+[build-url]: https://github.com/ryanmorr/scoped/actions
+[build-image]: https://img.shields.io/github/actions/workflow/status/ryanmorr/scoped/node.js.yml?style=flat-square
+[license-image]: https://img.shields.io/github/license/ryanmorr/scoped?color=blue&style=flat-square
 [license-url]: UNLICENSE
