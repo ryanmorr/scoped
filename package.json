@@ -5,8 +5,11 @@
   "license": "Unlicense",
   "author": "Ryan Morr",
   "homepage": "https://github.com/ryanmorr/scoped",
-  "repository": "github:ryanmorr/scoped",
   "bugs": "https://github.com/ryanmorr/scoped/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanmorr/scoped.git"
+  },
   "keywords": [
     "javascript",
     "css",
