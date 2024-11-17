@@ -1,7 +1,7 @@
 {
   "name": "@ryanmorr/scoped",
   "description": "Scoped CSS for DOM trees",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "Unlicense",
   "author": "Ryan Morr",
   "homepage": "https://github.com/ryanmorr/scoped",
